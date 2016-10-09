@@ -5,12 +5,11 @@ import requests
 import json
 import os
 
-SAKURA_URL = os.environ['SAKURA_URL']
-HEROKU_URL = os.environ['HEROKU_URL']
+SLACK_URL = os.environ['SLACK_URL']
 WANTED_DOMAIN = os.environ['WANTED_DOMAIN']
 
 response = requests.post(
-    SAKURA_URL,
+    'https://secure.sakura.ad.jp/signup2/domain.php',
     {'domain': WANTED_DOMAIN,
      'tld[com]': 1,
      'tld[org]': 0,
@@ -27,7 +26,10 @@ comment = soup.select('div.domain-search-results')[0].td.font.string
 
 if comment != '取得できません':
     response = requests.post(
-        HEROKU_URL,
-        json.dumps({'text': 'さくらドメイン\n' + domain + ': ' + comment}),
+        SLACK_URL,
+        json.dumps({'text': 'さくらドメインの ' + domain + ' を探したよ〜！\nステータス :  `' + comment + '`',
+                    "username": "miss-suzuki.comを監視するマン",
+                    "channel": "#general",
+                    }),
         headers={'Content-Type': 'application/json'})
 
