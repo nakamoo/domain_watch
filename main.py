@@ -27,8 +27,8 @@ comment = soup.select('div.domain-search-results')[0].td.font.string
 if comment != '取得できません':
     response = requests.post(
         SLACK_URL,
-        json.dumps({'text': 'さくらドメインの ' + domain + ' を探したよ〜！\nステータス :  `' + comment + '`',
-                    "username": "miss-suzuki.comを監視するマン",
+        json.dumps({'text': 'さくらドメイン ' + domain + '\nステータス :  `' + comment + '`',
+                    "username": "ドメイン監視",
                     "channel": "#general",
                     }),
         headers={'Content-Type': 'application/json'})
